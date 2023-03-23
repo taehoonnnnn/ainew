@@ -82,237 +82,237 @@ def edit_therading():
 
 def text_edit(model_select):
     from one import loding, progressbar
-    # try:
-    test2 = []
-    tts_text = []
-    
-    file = filedialog.askopenfilename(initialdir='/', title='Select file', defaultextension='.txt',
-                                filetypes=(("text files", "*.txt"),("all files", "*.*")))
-    
     try:
-        f = open(file, 'r', encoding='cp949')
-        txt_file = f.readlines()
-        print('cp949')
-    except:
-        f = open(file, 'r', encoding='utf-8')
-        txt_file = f.readlines()
-        print('utf-8')
+        test2 = []
+        tts_text = []
         
-    loding.config(text = '음성 생성 시작')
-
-    for i in range(len(txt_file)):
-        a = (txt_file[i])
-        del_t = a
+        file = filedialog.askopenfilename(initialdir='/', title='Select file', defaultextension='.txt',
+                                    filetypes=(("text files", "*.txt"),("all files", "*.*")))
         
-        # if del_t2.find('니다') != -1:
-        #     sp_text = del_t2.index('다.')+2 # 개행 위치
-        #     del_t = del_t2[:sp_text] # 전처리 문자열 반환
-        #     del_t2 = del_t2[sp_text+1:] # 개행된 문자 외 나머지 반환
+        try:
+            f = open(file, 'r', encoding='cp949')
+            txt_file = f.readlines()
+            print('cp949')
+        except:
+            f = open(file, 'r', encoding='utf-8')
+            txt_file = f.readlines()
+            print('utf-8')
             
-        # else :
-        #     del_t = del_t2
-    
-        if del_t[0] == ' ': # 문자열 start 공백 제거
-            del_t = del_t[1:]
-            
+        loding.config(text = '음성 생성 시작')
 
-        # if del_t in '다.':
-        #     del_t.split()
-        # loding.config(text = f'{del_t} - 음성 생성 진행중')
+        for i in range(len(txt_file)):
+            a = (txt_file[i])
+            del_t = a
+            
+            # if del_t2.find('니다') != -1:
+            #     sp_text = del_t2.index('다.')+2 # 개행 위치
+            #     del_t = del_t2[:sp_text] # 전처리 문자열 반환
+            #     del_t2 = del_t2[sp_text+1:] # 개행된 문자 외 나머지 반환
+                
+            # else :
+            #     del_t = del_t2
         
-        # if ', ' or ' ' not in del_t:
-            # del_t = list(del_t)
-            # del_t = del_t.replace(',',' ')
-            # del_t = del_t.replace('.','')
-        
-        if '  ' in del_t:
+            if del_t[0] == ' ': # 문자열 start 공백 제거
+                del_t = del_t[1:]
+                
+
+            # if del_t in '다.':
+            #     del_t.split()
+            # loding.config(text = f'{del_t} - 음성 생성 진행중')
+            
+            # if ', ' or ' ' not in del_t:
+                # del_t = list(del_t)
+                # del_t = del_t.replace(',',' ')
+                # del_t = del_t.replace('.','')
+            
+            if '  ' in del_t:
+                del_t = del_t.replace('  ',' ')
+            
+            
+            del_t = del_t.replace('kg','킬로그램')
+            del_t = del_t.replace('cm','센티미터')
+            del_t = del_t.replace('km','킬로미터')
+            del_t = del_t.replace('mm','밀리미터')
+            del_t = del_t.replace('%', '퍼센트')
+            del_t = del_t.replace('·', ' ')
+            
+            
+            del_t = del_t.replace('“','')
+            
+            del_t = del_t.replace('. ',' ')
+                
+            del_t = del_t.replace('.','쩜')
+            
+            # del_t = del_t.replace(',','')
+            del_t = del_t.replace('"','')
             del_t = del_t.replace('  ',' ')
-        
-        
-        del_t = del_t.replace('kg','킬로그램')
-        del_t = del_t.replace('cm','센티미터')
-        del_t = del_t.replace('km','킬로미터')
-        del_t = del_t.replace('mm','밀리미터')
-        del_t = del_t.replace('%', '퍼센트')
-        del_t = del_t.replace('·', ' ')
-        
-        
-        del_t = del_t.replace('“','')
-        
-        del_t = del_t.replace('. ',' ')
+            # del_t = del_t.replace("'",'')
+            del_t = del_t.strip('\n')
+            del_t = del_t.strip('\t')
             
-        del_t = del_t.replace('.','쩜')
-        
-        # del_t = del_t.replace(',','')
-        del_t = del_t.replace('"','')
-        del_t = del_t.replace('  ',' ')
-        # del_t = del_t.replace("'",'')
-        del_t = del_t.strip('\n')
-        del_t = del_t.strip('\t')
-        
-        
-        del_t = del_t.replace('A', '에이')
-        del_t = del_t.replace('B', '비')
-        del_t = del_t.replace('C', '씨')
-        del_t = del_t.replace('D', '디')
-        del_t = del_t.replace('E', '이')
-        del_t = del_t.replace('F', '에프')
-        del_t = del_t.replace('G', '지')
-        del_t = del_t.replace('H', '에이치')
-        del_t = del_t.replace('I', '아이')
-        del_t = del_t.replace('J', '제이')
-        del_t = del_t.replace('K', '케이')
-        del_t = del_t.replace('L', '앨')
-        del_t = del_t.replace('M', '엠')
-        del_t = del_t.replace('N', '엔')
-        del_t = del_t.replace('O', '오')
-        del_t = del_t.replace('P', '피')
-        del_t = del_t.replace('Q', '큐')
-        del_t = del_t.replace('R', '알')
-        del_t = del_t.replace('S', '에스')
-        del_t = del_t.replace('T', '티')
-        del_t = del_t.replace('U', '유')
-        del_t = del_t.replace('V', '브이')
-        del_t = del_t.replace('W', '더블유')
-        del_t = del_t.replace('X', '엑스')
-        del_t = del_t.replace('Y', '와이')
-        del_t = del_t.replace('Z', '제트')
-        
-        del_t = del_t.replace('a', '에이')
-        del_t = del_t.replace('b', '비')
-        del_t = del_t.replace('c', '씨')
-        del_t = del_t.replace('d', '디')
-        del_t = del_t.replace('e', '이')
-        del_t = del_t.replace('f', '에프')
-        del_t = del_t.replace('g', '지')
-        del_t = del_t.replace('h', '에이치')
-        del_t = del_t.replace('i', '아이')
-        del_t = del_t.replace('j', '제이')
-        del_t = del_t.replace('k', '케이')
-        del_t = del_t.replace('l', '앨')
-        del_t = del_t.replace('m', '엠')
-        del_t = del_t.replace('n', '엔')
-        del_t = del_t.replace('o', '오')
-        del_t = del_t.replace('p', '피')
-        del_t = del_t.replace('q', '큐')
-        del_t = del_t.replace('r', '알')
-        del_t = del_t.replace('s', '에스')
-        del_t = del_t.replace('t', '티')
-        del_t = del_t.replace('u', '유')
-        del_t = del_t.replace('v', '브이')
-        del_t = del_t.replace('w', '더블유')
-        del_t = del_t.replace('x', '엑스')
-        del_t = del_t.replace('y', '와이')
-        del_t = del_t.replace('z', '제트')
+            
+            del_t = del_t.replace('A', '에이')
+            del_t = del_t.replace('B', '비')
+            del_t = del_t.replace('C', '씨')
+            del_t = del_t.replace('D', '디')
+            del_t = del_t.replace('E', '이')
+            del_t = del_t.replace('F', '에프')
+            del_t = del_t.replace('G', '지')
+            del_t = del_t.replace('H', '에이치')
+            del_t = del_t.replace('I', '아이')
+            del_t = del_t.replace('J', '제이')
+            del_t = del_t.replace('K', '케이')
+            del_t = del_t.replace('L', '앨')
+            del_t = del_t.replace('M', '엠')
+            del_t = del_t.replace('N', '엔')
+            del_t = del_t.replace('O', '오')
+            del_t = del_t.replace('P', '피')
+            del_t = del_t.replace('Q', '큐')
+            del_t = del_t.replace('R', '알')
+            del_t = del_t.replace('S', '에스')
+            del_t = del_t.replace('T', '티')
+            del_t = del_t.replace('U', '유')
+            del_t = del_t.replace('V', '브이')
+            del_t = del_t.replace('W', '더블유')
+            del_t = del_t.replace('X', '엑스')
+            del_t = del_t.replace('Y', '와이')
+            del_t = del_t.replace('Z', '제트')
+            
+            del_t = del_t.replace('a', '에이')
+            del_t = del_t.replace('b', '비')
+            del_t = del_t.replace('c', '씨')
+            del_t = del_t.replace('d', '디')
+            del_t = del_t.replace('e', '이')
+            del_t = del_t.replace('f', '에프')
+            del_t = del_t.replace('g', '지')
+            del_t = del_t.replace('h', '에이치')
+            del_t = del_t.replace('i', '아이')
+            del_t = del_t.replace('j', '제이')
+            del_t = del_t.replace('k', '케이')
+            del_t = del_t.replace('l', '앨')
+            del_t = del_t.replace('m', '엠')
+            del_t = del_t.replace('n', '엔')
+            del_t = del_t.replace('o', '오')
+            del_t = del_t.replace('p', '피')
+            del_t = del_t.replace('q', '큐')
+            del_t = del_t.replace('r', '알')
+            del_t = del_t.replace('s', '에스')
+            del_t = del_t.replace('t', '티')
+            del_t = del_t.replace('u', '유')
+            del_t = del_t.replace('v', '브이')
+            del_t = del_t.replace('w', '더블유')
+            del_t = del_t.replace('x', '엑스')
+            del_t = del_t.replace('y', '와이')
+            del_t = del_t.replace('z', '제트')
 
-        # if del_t[-1:] == ' ':
-        #     del_t = del_t[:len(del_t)-1]
+            # if del_t[-1:] == ' ':
+            #     del_t = del_t[:len(del_t)-1]
+            
+            if del_t[-1:] == ' ':
+                del_t = del_t[:-1]
+            
+            if del_t[0] == ' ':
+                del_t = del_t[1:]
+                
+            if del_t[-1:] == '쩜':
+                del_t = del_t[:-1]
+                
+            test2.append(del_t[:])       
+                
+        for i in test2:
+            tts_text.append(num_kr_change(i))
         
-        if del_t[-1:] == ' ':
-            del_t = del_t[:-1]
+        tts_text_cnt = 1
         
-        if del_t[0] == ' ':
-            del_t = del_t[1:]
-            
-        if del_t[-1:] == '쩜':
-            del_t = del_t[:-1]
-            
-        test2.append(del_t[:])       
-            
-    for i in test2:
-        tts_text.append(num_kr_change(i))
-    
-    tts_text_cnt = 1
-    
-    # model_sel = model_select.get()
-    # 단일화자
-    # if model_sel == 'AI_황이화':
-    #     models = 'model_1'
-    # elif model_sel == 'AI_추민선':
-    #     models = 'model_2'
-
-    # 다중화자
-    if model_select == 'AI_황이화':
-        models = '1'
-    elif model_select == 'AI_추민선':
-        models = '0'
-    print(models)
-    
-    for i in tts_text:
+        # model_sel = model_select.get()
         # 단일화자
-        # cmd = f'python audio_create/synthesizer.py --load_path audio_create/model/{models} --sample_path sample --text "{i}"'
+        # if model_sel == 'AI_황이화':
+        #     models = 'model_1'
+        # elif model_sel == 'AI_추민선':
+        #     models = 'model_2'
+
         # 다중화자
-        cmd = f'python audio_create/synthesizer.py --load_path audio_create/model/1and2 --num_speaker 2 --speaker_id {models} --sample_path sample --text "{i}"'
-        subprocess.run(cmd)
-        print(f'{i} - 오디오 생성 진행중')
-        cnt = (tts_text_cnt/len(tts_text))*100
-        loding.config(text = f'진행률 - {int(cnt)}%')
-        progressbar['value'] = int(cnt)
-        progressbar.update()
-        tts_text_cnt += 1
+        if model_select == 'AI_황이화':
+            models = '1'
+        elif model_select == 'AI_추민선':
+            models = '0'
+        print(models)
         
-    print('파일 이름 변경 시작')
-    paths = glob.glob('./sample/**', recursive=True)
+        for i in tts_text:
+            # 단일화자
+            # cmd = f'python audio_create/synthesizer.py --load_path audio_create/model/{models} --sample_path sample --text "{i}"'
+            # 다중화자
+            cmd = f'python audio_create/synthesizer.py --load_path audio_create/model/1and2 --num_speaker 2 --speaker_id {models} --sample_path sample --text "{i}"'
+            subprocess.run(cmd)
+            print(f'{i} - 오디오 생성 진행중')
+            cnt = (tts_text_cnt/len(tts_text))*100
+            loding.config(text = f'진행률 - {int(cnt)}%')
+            progressbar['value'] = int(cnt/1.25)
+            progressbar.update()
+            tts_text_cnt += 1
+            
+        print('파일 이름 변경 시작')
+        paths = glob.glob('./sample/**', recursive=True)
 
-    exts = ('png', 'jpg', 'txt', 'mp4') # 폴더에 해당 확장자 파일 삭제
-    for path in paths:
-        if any(ext in path for ext in exts):
-            os.remove(path)
+        exts = ('png', 'jpg', 'txt', 'mp4') # 폴더에 해당 확장자 파일 삭제
+        for path in paths:
+            if any(ext in path for ext in exts):
+                os.remove(path)
 
 
-    path = "./sample" # 오디오 파일 저장 경로
-    file_names = os.listdir(path)
-    file_names
+        path = "./sample" # 오디오 파일 저장 경로
+        file_names = os.listdir(path)
+        file_names
 
-    str_cnt = 1
-    for name in file_names:
-        src = os.path.join(path, name)
-        dst = str(str_cnt) + '.wav'
-        dst = os.path.join(path, dst)
-        os.rename(src, dst)
-        str_cnt += 1
+        str_cnt = 1
+        for name in file_names:
+            src = os.path.join(path, name)
+            dst = str(str_cnt) + '.wav'
+            dst = os.path.join(path, dst)
+            os.rename(src, dst)
+            str_cnt += 1
 
-    # ------------------------ 개별 생성시 여기서부터 주석 -------------------------        
-    # -- 오디오 생성 부 --
-    audio_list = [] # 합칠 오디오 파일 리스트
-    sample_rate = 24000
-    filecnt = os.listdir('./sample/')
+        # ------------------------ 개별 생성시 여기서부터 주석 -------------------------        
+        # -- 오디오 생성 부 --
+        audio_list = [] # 합칠 오디오 파일 리스트
+        sample_rate = 24000
+        filecnt = os.listdir('./sample/')
 
-    # -- 파일마다 1초의 간격 추가 --
-    for i in range(len(filecnt)):
-        x, sr = sf.read(f'./sample/{i+1}.wav')
-        y, sr = sf.read(f'./TTSOUT/1sec/1sec.wav')
-        x = np.concatenate((x,y),axis=0)
-        sf.write(f'./TTSOUT/audio_{i+1}.wav', x, sample_rate)
+        # -- 파일마다 1초의 간격 추가 --
+        for i in range(len(filecnt)):
+            x, sr = sf.read(f'./sample/{i+1}.wav')
+            y, sr = sf.read(f'./TTSOUT/1sec/1sec.wav')
+            x = np.concatenate((x,y),axis=0)
+            sf.write(f'./TTSOUT/audio_{i+1}.wav', x, sample_rate)
 
-    # -- 전체 오디오 결합 --    
-    for i in range(len(filecnt)):
-        cnt, sr = sf.read(f'./TTSOUT/audio_{i+1}.wav')
-        audio_list.append(cnt)
+        # -- 전체 오디오 결합 --    
+        for i in range(len(filecnt)):
+            cnt, sr = sf.read(f'./TTSOUT/audio_{i+1}.wav')
+            audio_list.append(cnt)
 
-    audio_list = np.concatenate((audio_list), axis=0)
-    
-    name = 'file'
-    print(name)
-    
-    sf.write(f'./TTSOUT/audio/{name}.wav', audio_list, sample_rate)
+        audio_list = np.concatenate((audio_list), axis=0)
+        
+        name = 'file'
+        print(name)
+        
+        sf.write(f'./TTSOUT/audio/{name}.wav', audio_list, sample_rate)
 
-    # -- 생성된 파일 삭제 --
-    [os.remove(f) for f in glob.glob('./TTSOUT/*.wav')]
-    [os.remove(f) for f in glob.glob('./sample/*.wav')]
-    
-    print("오디오 생성완료")
-    loding.config(text = '음성 생성 완료')
-    
-    # 다음 프로그래밍을 위해 초기화
-    txt_file = ''
-    tts_text = []
-    f.close()
-# except:
-    messagebox.showinfo('에러', '에러')
-    loding.config(text = '음성 생성')
-    [os.remove(f) for f in glob.glob('./TTSOUT/*.wav')]
-    [os.remove(f) for f in glob.glob('./sample/*.wav')]
-    f.close()
+        # -- 생성된 파일 삭제 --
+        [os.remove(f) for f in glob.glob('./TTSOUT/*.wav')]
+        [os.remove(f) for f in glob.glob('./sample/*.wav')]
+        
+        print("오디오 생성완료")
+        loding.config(text = '음성 생성 완료')
+        
+        # 다음 프로그래밍을 위해 초기화
+        txt_file = ''
+        tts_text = []
+        f.close()
+    except:
+        messagebox.showinfo('에러', '에러')
+        loding.config(text = '음성 생성')
+        [os.remove(f) for f in glob.glob('./TTSOUT/*.wav')]
+        [os.remove(f) for f in glob.glob('./sample/*.wav')]
+        f.close()
 
     # ----------------------------------------------------------------------

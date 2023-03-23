@@ -50,39 +50,6 @@ def video_open(): # 비디오 파일 열기
         videoimglab.configure(image=img_change)
     except:
         messagebox.showinfo("오류", "오류")
-    
-    
-def get_duration_audio(filename): # 오디오 정보 추출
-    audio = wave.open(filename)
-    frames = audio.getnframes()
-    rate = audio.getframerate()
-    seconds = frames/float(rate)
-    adlab2.config(text='-오디오길이 : ' + f'{round(seconds,1)}초')
-
-
-# -- 오디오 메인 스펙트럼 사진 변경 --
-def get_audio_image(path, name):
-    sig, sr = librosa.load(path, sr = 23500)
-    plt.figure(figsize = (5.04,2.88))
-    plt.axis('off')
-    librosa.display.waveshow(sig, sr, color='white', alpha=1)
-    plt.savefig(f'./image/{name}.png', facecolor=bg, pad_inches=0)
-    
-    
-def audio_open(): # 오디오 파일 열기
-    global audio_file_path
-    audio_file_path = filedialog.askopenfilename(initialdir='', title='동영상 파일선택', filetypes=(
-    ('wav files', '*.wav'), ('mp3 files', '*.mp3'), ('all files', '*.*')))
-    try:
-        get_duration_audio(audio_file_path)
-        print(audio_file_path)
-        name = 'audio'
-        get_audio_image(audio_file_path, name)
-        img_change = PhotoImage(file=f'./image/{name}.png', master=frame_audiorg)
-        audioimglab.image = img_change
-        audioimglab.configure(image=img_change)     
-    except:
-        messagebox.showinfo("오류", "파일을 선택해주세요.")
 
 
 # -- final_ai Thread --
@@ -110,12 +77,6 @@ def get_select_file():
     else:
         messagebox.showinfo("오류", "체크사항을 확인해주세요.")
 
-# -- 최종 AI 모델 저장 경로 --
-# def lipfake_path():
-#     global ai_path
-#     ai_path = filedialog.askdirectory()
-#     print(ai_path)
-#     fileload.config(text=ai_path)
 
 # -- final_ai Thread --
 def final_ai_therading():
@@ -130,113 +91,19 @@ def final_ai_therading():
 # -- TTS + LipFake Start --
 def final_ai():
     try:
-        # outfile = ai_path+'/'+fake_filename.get()
-        cmd = f'python lipfake/inference.py --checkpoint_path ./checkpoints/wav2lip_gan.pth --face {video_file_path} --audio ./TTSOUT/audio/file.wav --outfile ./TTSOUT/video/file.mp4 --resize_factor 2'
         loding.config(text='비디오 생성중...')
+        cmd = f'python lipfake/inference.py --checkpoint_path ./checkpoints/wav2lip_gan.pth --face {video_file_path} --audio ./TTSOUT/audio/file.wav --outfile ./TTSOUT/video/file.mp4 --resize_factor 2'
         print(cmd)
         subprocess.run(cmd)
- 
-        # start_Lab.config(text='최근작업 저장중...')   
-        
-        # -- 이미지 복사 --
-        # path_dir = './save'
-        # filecnt = os.listdir(path_dir)[:4]
-        
-        # vidcap2 = cv2.VideoCapture(video_file_path)
-        # success,image = vidcap2.read()
-        # success = True
-        # resize_img2 = cv2.resize(image, (100,90))
-        
-        # if '1.png' not in filecnt:
-        #     cv2.imwrite('./save/1.png', resize_img2)
-        #     print('1')
-            
-        # elif '2.png' not in filecnt:
-        #     cv2.imwrite('./save/2.png', resize_img2)
-        #     print('2')
-            
-        # elif '3.png' not in filecnt:
-        #     cv2.imwrite('./save/3.png', resize_img2)
-        #     print('3')
-            
-        # elif '4.png' not in filecnt:
-        #     cv2.imwrite('./save/4.png', resize_img2)
-        #     print('4')
-
-        # elif '4.png' in filecnt:
-        #     cv2.imwrite('./save/5.png', resize_img2)
-        #     os.remove('./save/1.png')
-
-            # for i in range(len(filecnt)):
-            #     src = os.path.join(path_dir, str(i+2)+'.png')
-            #     dst = str(i+1) + '.png'
-            #     dst = os.path.join(path_dir, dst)
-            #     os.rename(src, dst)
-        
-    #     # -- 영상 복사 --
-    #     video_path_dir = './save/video/'
-    #     videocnt = os.listdir(video_path_dir)
-        
-    #     if 'save_1.mp4' not in videocnt:
-    #         shutil.copy2(f'{outfile}.mp4', f'{video_path_dir}save_1.mp4')
-            
-    #     elif 'save_2.mp4' not in videocnt:
-    #         shutil.copy2(f'{outfile}.mp4', f'{video_path_dir}save_2.mp4')
-            
-    #     elif 'save_3.mp4' not in videocnt:
-    #         shutil.copy2(f'{outfile}.mp4', f'{video_path_dir}save_3.mp4')
-            
-    #     elif 'save_4.mp4' not in videocnt:
-    #         shutil.copy2(f'{outfile}.mp4', f'{video_path_dir}save_4.mp4')
-
-    #     elif 'save_4.mp4' in videocnt:
-    #         shutil.copy2(f'{outfile}.mp4', f'{video_path_dir}save_5.mp4')
-    #         os.remove('./save/video/save_1.mp4')
-            
-    #         for i in range(len(videocnt)):
-    #             src = os.path.join(video_path_dir, f'save_{str(i+2)}.mp4')
-    #             dst = f'save_{str(i+1)}.mp4'
-    #             dst = os.path.join(video_path_dir, dst)
-    #             os.rename(src, dst)
-        
-    #     befo_img = PhotoImage(file='./save/1.png', master=before_file_image)
-    #     Label_test1.image = befo_img
-    #     Label_test1.configure(image=befo_img)
-        
-    #     befo_img = PhotoImage(file='./save/2.png', master=before_file_image)
-    #     Label_test2.image = befo_img
-    #     Label_test2.configure(image=befo_img)
-
-    #     befo_img = PhotoImage(file='./save/3.png', master=before_file_image)
-    #     Label_test3.image = befo_img
-    #     Label_test3.configure(image=befo_img)
-
-    #     befo_img = PhotoImage(file='./save/4.png', master=before_file_image)
-    #     Label_test4.image = befo_img
-    #     Label_test4.configure(image=befo_img)
-        
-    #     video_dir = os.getcwd()
-        
-    #     Label_test4.image = befo_img
-    #     Label_test4.configure(image=befo_img)
-        
-    #     Label_name1.config(text=fr"{video_dir}\save\video\{videocnt[0]}")
-    #     Label_time1.config(text=f"{datetime.datetime.fromtimestamp(os.path.getmtime(video_path_dir+videocnt[0]))}")
-        
-    #     Label_name2.config(text=fr"{video_dir}\save\video\{videocnt[1]}")
-    #     Label_time2.config(text=f"{datetime.datetime.fromtimestamp(os.path.getmtime(video_path_dir+videocnt[1]))}")
-        
-    #     Label_name3.config(text=fr"{video_dir}\save\video\{videocnt[2]}")
-    #     Label_time3.config(text=f"{datetime.datetime.fromtimestamp(os.path.getmtime(video_path_dir+videocnt[2]))}")
-        
-    #     Label_name4.config(text=fr"{video_dir}\save\video\{videocnt[3]}")
-    #     Label_time4.config(text=f"{datetime.datetime.fromtimestamp(os.path.getmtime(video_path_dir+videocnt[3]))}")
-        
-    #     start_Lab.config(text='생성 완료')
+        progressbar['value'] = 100
+        progressbar.update()
+    
     except:
         messagebox.showinfo("오류", "오류")
-        # start_Lab.config(text='파일 생성 오류')
 
+
+def loding_cnt(text):
+    loding.config(text=f'{text}')
 
 
 def human_win(win, mainfont2):  # AI_HUMAN
@@ -253,9 +120,6 @@ def human_win(win, mainfont2):  # AI_HUMAN
 
     frame1 = LabelFrame(inco_frame, bg=bg, relief='flat',width=800, height=150)
     frame1.pack(fill='both', expand=True, side='left')
-
-    # frame2 = LabelFrame(inco_frame, bg=bg, relief='flat',width=800, height=150)
-    # frame2.pack(fill='both', expand=True, side='right')
 
     # 동영상 프레임
     frame_video = LabelFrame(frame1, bg=bg, text='동영상', relief='groove', width=500, height=150, font=mainfont2, fg='white')
@@ -327,144 +191,5 @@ def human_win(win, mainfont2):  # AI_HUMAN
     loding.pack(pady=10)
     
 
-    # audioimg = PhotoImage(file='./image/audio.png', master=frame_videorg)
-    # audioimglab = Label(frame_audiorg, image=audioimg) # 소리 음파 이미지 라벨
-    # audioimglab.image = audioimg # 가비지 컬렉션 삭제 방지
-    # audioimglab.pack(anchor='center', pady=10) # **** 이미지에 따른 위치 수정 필요( 파일크기 확인하세요 )
-
-    # ai 관
-    # 리
-    # frame_ai = LabelFrame(frame1, bg=bg, text='ai', relief='groove',
-    #                         width=500, height=150, font=mainfont2, fg='white')
-    # frame_ai.pack(fill='both', expand=True)
-    # ai_btn1 = Button(frame_ai, text='최근파일열기', height=3, width=25, bg=bnbg, fg='white', relief='flat')
-    # ai_btn1.place(relx=0.08, rely=0.15)
-    # ai_btn2 = Button(frame_ai, text='프로젝트열기', height=3, width=25, bg=bnbg, fg='white', relief='flat')
-    # ai_btn2.place(relx=0.38, rely=0.15)
-    # ai_btn3 = Button(frame_ai, text='프로젝트저장', height=3, width=25, bg=bnbg, fg='white', relief='flat')
-    # ai_btn3.place(relx=0.68, rely=0.15)
-
-
-    # -- 작업진행 --
-    # frame_start = LabelFrame(frame2, bg=bg, text='작업진행', relief='groove',
-    #                         width=5000, height=20, font=mainfont2, fg='white')
-    # frame_start.pack(expand=False, fill="both")
-
-    # frame_startbom = LabelFrame(frame_start, bg=bg, relief='flat')
-    # frame_startbom.pack(fill='both', expand=False, side='bottom', pady=10) # 하단프레임
-    
-    # start_btn = Button(frame_startbom, text='합성시작', bg=bnbg, fg='white', height=3, width=110, relief='flat', command=final_ai_therading)
-    # start_btn.pack()
-    
-    # global start_Lab
-    # start_Lab = Label(frame_startbom, text='시작대기중', bg=bg, fg='white', relief='groove',height=2, width=110)
-    # start_Lab.pack()
-
-    # frame_startle = LabelFrame(frame_start, bg=bg, relief='flat')
-    # frame_startle.pack(fill='both', expand=False, side='left', pady=10) # 왼쪽프레임
-    
-    # Last1 = Label(frame_startle, bg=bg, text='저장경로', fg='white').pack(anchor='nw', padx=20, pady=3)
-    # Last1 = Label(frame_startle, bg=bg, text='저장파일이름', fg='white').pack(anchor='nw', padx=20, pady=3)
-
-    # frame_startrg = LabelFrame(frame_start, bg=bg, relief='flat')
-    # frame_startrg.pack(fill='both', expand=True, side='right', pady=10) # 오른쪽프레임
-    
-    # global fileload, fake_filename
-
-    # fileload = Label(frame_startrg, text='', bg=bg, fg='white')
-    # fileload.grid(row=0, column=0, padx=5, pady=3, columnspan=5, sticky=W) # 저장경로
-    
-    # btnfile_load = Button(frame_startrg, width=8, bg=bnbg, text='...', relief='flat', fg='white', command=lipfake_path)
-    # btnfile_load.grid(row=0, column=5, padx=3, pady=2)
-    
-    # fake_filename = Entry(frame_startrg, width = 30)
-    # fake_filename.grid(row=1, column=0, padx=5, pady=3, columnspan=6, sticky='NEWS') # 저장파일이름
-
-    # # 최근결과물
-    # before_frame = LabelFrame(frame2, bg=bg, text='최근결과물', relief='groove',
-    #                         width=500, height=20, font=mainfont2, fg='white')
-    # before_frame.pack(fill='both', expand=True) # DB 작업 이후에 만들 것(DB에서 데이터 가져와야함)
-    
-    # global before_file_image
-    # before_file_image = Frame(before_frame, bg=bg, width=150, height=550)
-    # before_file_image.pack(side='left', expand=True)
-
-    # before_file_text = Frame(before_frame, bg=bg, width=300, height=550)
-    # before_file_text.pack(side='right', expand=True)
-
-
-    # global Label_test1, Label_test2, Label_test3, Label_test4
-    # # 최근 이미지 파일
-    # img = PhotoImage(file='./save/1.png', master=before_file_image)
-    # Label_test1 = Label(before_file_image, bg=bg, pady=50, padx=60, image=img)
-    # Label_test1.image = img
-    # Label_test1.grid(row=0, column=0)
-    
-    # Label(before_file_image, bg=bg, pady=3).grid(row=1)
-    
-    # img = PhotoImage(file='./save/2.png', master=before_file_image)
-    # Label_test2 = Label(before_file_image, bg=bg, pady=50, padx=60, image=img)
-    # Label_test2.image = img 
-    # Label_test2.grid(row=2, column=0)
-    # Label(before_file_image, bg=bg, pady=3).grid(row=3)
-    
-    
-    # img = PhotoImage(file='./save/3.png', master=before_file_image)
-    # Label_test3 = Label(before_file_image, bg=bg, pady=50, padx=60, image=img)
-    # Label_test3.image = img
-    # Label_test3.grid(row=4, column=0)
-    # Label(before_file_image, bg=bg, pady=3).grid(row=5)
-    
-    
-    # img = PhotoImage(file='./save/4.png', master=before_file_image)
-    # Label_test4 = Label(before_file_image, bg=bg, pady=50, padx=60, image=img)
-    # Label_test4.image = img
-    # Label_test4.grid(row=6, column=0)
-
-
-    # global Label_name1, Label_name2, Label_name3, Label_name4
-    # global Label_time1, Label_time2, Label_time3, Label_time4
-
-    
-    
-    # # 최근 저장경로 및 파일 이름 // 저장 날짜
-    # video_dir = os.getcwd()
-    
-    # save_dir_path = './save/video/'
-    # save_dir_path_file = os.listdir(save_dir_path)
-    
-    # Label_name1 = Label(before_file_text, bg=bg, pady=13, padx=5, fg=fg,
-    #                     text=fr'{video_dir}\save\video\{save_dir_path_file[0]}.mp4')
-    # Label_name1.grid(row=1, column=0, sticky='nw')
-    # Label_time1 = Label(before_file_text, bg=bg, pady=15, padx=5, fg=fg,
-    #                     text=f'{datetime.datetime.fromtimestamp(os.path.getmtime(save_dir_path+save_dir_path_file[0]))}')
-    # Label_time1.grid(row=2, column=0, sticky='nw')    
-    # Label(before_file_text, bg=bg, pady=2, padx=180).grid(row=3)
-    
-    
-    # Label_name2 = Label(before_file_text, bg=bg, pady=13, padx=5, fg=fg,
-    #                     text=fr'{video_dir}\save\video\{save_dir_path_file[1]}.mp4')
-    # Label_name2.grid(row=4, column=0, sticky='nw')
-    # Label_time2 = Label(before_file_text, bg=bg, pady=15, padx=5, fg=fg,
-    #                     text=f'{datetime.datetime.fromtimestamp(os.path.getmtime(save_dir_path+save_dir_path_file[1]))}')
-    # Label_time2.grid(row=5, column=0, sticky='nw')
-    # Label(before_file_text, bg=bg, pady=3).grid(row=6)
-    
-    
-    # Label_name3 = Label(before_file_text, bg=bg, pady=13, padx=5, fg=fg, 
-    #                     text=fr'{video_dir}\save\video\{save_dir_path_file[2]}.mp4')
-    # Label_name3.grid(row=7, column=0, sticky='nw')
-    # Label_time3 = Label(before_file_text, bg=bg, pady=15, padx=5, fg=fg,
-    #                     text=f'{datetime.datetime.fromtimestamp(os.path.getmtime(save_dir_path+save_dir_path_file[2]))}')
-    # Label_time3.grid(row=8, column=0, sticky='nw')
-    # Label(before_file_text, bg=bg, pady=2).grid(row=9)
-    
-    
-    # Label_name4 = Label(before_file_text, bg=bg, pady=13, padx=5, fg=fg,
-    #                     text=fr'{video_dir}\save\video\{save_dir_path_file[3]}.mp4')
-    # Label_name4.grid(row=10, column=0, sticky='nw')
-    # Label_time4 = Label(before_file_text, bg=bg, pady=15, padx=5, fg=fg,
-    #                     text=f'{datetime.datetime.fromtimestamp(os.path.getmtime(save_dir_path+save_dir_path_file[3]))}')
-    # Label_time4.grid(row=11, column=0, sticky='nw')
 
     newWindow.resizable(False, False)
